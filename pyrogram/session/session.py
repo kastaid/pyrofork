@@ -415,6 +415,7 @@ class Session:
 
         query_name = ".".join(inner_query.QUALNAME.split(".")[1:])
 
+        attempt = 0
         while True:
             try:
                 return await self.send(query, timeout=timeout)
@@ -424,21 +425,28 @@ class Session:
                 if amount > sleep_threshold >= 0:
                     raise
 
-                log.warning('[%s] Waiting for %s seconds before continuing (required by "%s")',
-                            self.client.name, amount, query_name)
+                log.warning(
+                    '[%s] Waiting for %s seconds before continuing (required by "%s")',
+                    self.client.name,
+                    amount,
+                    query_name
+                )
 
                 await asyncio.sleep(amount)
             except (OSError, InternalServerError, ServiceUnavailable, TimeoutError) as e:
-                if retries == 0:
+                attempt += 1
+
+                if retries <= 0:
                     raise e from None
 
                 (log.warning if retries < 2 else log.info)(
-                    '[%s] Retrying "%s" due to: %s',
-                    Session.MAX_RETRIES - retries + 1,
-                    query_name, str(e) or repr(e)
+                    '[%s] Retry %s "%s": %s',
+                    self.client.name,
+                    attempt,
+                    query_name,
+                    str(e) or repr(e)
                 )
 
-                await asyncio.sleep(1)
+                await asyncio.sleep(1 + (0.1 * attempt))
 
                 retries -= 1
-                continue
