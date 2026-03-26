@@ -56,6 +56,8 @@ class Start:
 
                 app.run(main())
         """
+        self.load_plugins()
+        
         is_authorized = await self.connect()
 
         try:
