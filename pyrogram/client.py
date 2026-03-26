@@ -1128,16 +1128,14 @@ class Client(Methods):
         try:
             async for chunk in self.get_file(file_id, file_size, 0, 0, progress, progress_args):
                 file.write(chunk)
-        except BaseException as e:
+        except asyncio.CancelledError:
+            raise
+        except pyrogram.errors.FloodWait:
+            raise
+        except Exception as e:
             if not in_memory:
                 file.close()
                 os.remove(temp_file_path)
-
-            if isinstance(e, asyncio.CancelledError):
-                raise e
-
-            if isinstance(e, pyrogram.errors.FloodWait):
-                raise e
 
             return None
         else:
@@ -1365,6 +1363,7 @@ class Client(Methods):
                 raise
             except Exception as e:
                 log.exception(e)
+                raise
             finally:
                 await session.stop()
 
