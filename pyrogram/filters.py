@@ -1,4 +1,3 @@
-
 #  Pyrofork - Telegram MTProto API Client Library for Python
 #  Copyright (C) 2017-present Dan <https://github.com/delivrance>
 #  Copyright (C) 2022-present Mayuri-Chan <https://github.com/Mayuri-Chan>
@@ -230,7 +229,7 @@ text = create(text_filter)
 
 # region reply_filter
 async def reply_filter(_, __, m: Message):
-    return bool(m.reply_to_message_id)
+    return bool(m.reply_to_message_id or m.reply_to_story_id)
 
 
 reply = create(reply_filter)
@@ -271,6 +270,16 @@ caption = create(caption_filter)
 
 # endregion
 
+# region self_destruction_filter
+async def self_destruction_filter(_, __, m: Message):
+    return bool(m.media and getattr(getattr(m, m.media.value, None), "ttl_seconds", None))
+
+
+self_destruction = create(self_destruction_filter)
+"""Filter self-destruction media messages."""
+
+
+# endregion
 
 # region audio_filter
 async def audio_filter(_, __, m: Message):
@@ -796,7 +805,11 @@ from_scheduled = create(from_scheduled_filter)
 
 # region linked_channel_filter
 async def linked_channel_filter(_, __, m: Message):
-    return bool((m.forward_origin and m.forward_origin.chat) and not m.from_user)
+    return bool(
+        m.forward_origin and
+        m.forward_origin.type == enums.MessageOriginType.CHANNEL and
+        m.forward_origin.chat == m.sender_chat
+    )
 
 
 linked_channel = create(linked_channel_filter)
