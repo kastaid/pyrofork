@@ -44,6 +44,7 @@ from .sent_code_type import SentCodeType
 from .stories_privacy_rules import StoriesPrivacyRules
 from .story_privacy import StoryPrivacy
 from .user_status import UserStatus
+from .button_style import ButtonStyle
 
 __all__ = [
     'BusinessSchedule',
@@ -72,5 +73,6 @@ __all__ = [
     'SentCodeType',
     "StoriesPrivacyRules",
     "StoryPrivacy",
-    'UserStatus'
+    'UserStatus',
+    'ButtonStyle'
 ]
