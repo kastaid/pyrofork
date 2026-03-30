@@ -33,6 +33,7 @@ from .bot_info import BotInfo
 from .callback_game import CallbackGame
 from .callback_query import CallbackQuery
 from .collectible_item_info import CollectibleItemInfo
+from .copy_text_button import CopyTextButton
 from .force_reply import ForceReply
 from .game_high_score import GameHighScore
 from .inline_keyboard_button import InlineKeyboardButton
@@ -69,6 +70,7 @@ __all__ = [
     "CallbackGame",
     "CallbackQuery",
     "CollectibleItemInfo",
+    "CopyTextButton",
     "ForceReply",
     "GameHighScore",
     "InlineKeyboardButton",
