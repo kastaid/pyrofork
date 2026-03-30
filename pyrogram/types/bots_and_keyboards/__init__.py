@@ -38,6 +38,13 @@ from .game_high_score import GameHighScore
 from .inline_keyboard_button import InlineKeyboardButton
 from .inline_keyboard_markup import InlineKeyboardMarkup
 from .keyboard_button import KeyboardButton
+from .keyboard_button_poll_type import (
+    KeyboardButtonPollType,
+    KeyboardButtonPollTypeRegular,
+    KeyboardButtonPollTypeQuiz
+)
+from .keyboard_button_request_chat import KeyboardButtonRequestChat
+from .keyboard_button_request_users import KeyboardButtonRequestUsers
 from .inline_keyboard_button_buy import InlineKeyboardButtonBuy
 from .login_url import LoginUrl
 from .menu_button import MenuButton
@@ -68,6 +75,11 @@ __all__ = [
     "InlineKeyboardButtonBuy",
     "InlineKeyboardMarkup",
     "KeyboardButton",
+    "KeyboardButtonPollType",
+    "KeyboardButtonPollTypeRegular",
+    "KeyboardButtonPollTypeQuiz",
+    "KeyboardButtonRequestChat",
+    "KeyboardButtonRequestUsers",
     "ReplyKeyboardMarkup",
     "ReplyKeyboardRemove",
     "RequestPeerTypeChannel",
